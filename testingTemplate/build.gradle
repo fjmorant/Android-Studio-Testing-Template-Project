@@ -1,31 +1,73 @@
 apply plugin: 'android'
+apply plugin: 'robolectric'
 
 android {
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
 
     defaultConfig {
-        applicationId "morant.projecttestingtemplate"
+
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 18
         versionCode 1
         versionName "1.0"
+        applicationId "com.morant.testingTemplate"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        testPackageName "com.morant.testingTemplate.test"
     }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+        }
+
+        androidTest {
+            setRoot('src/test')
+        }
+    }
+
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+robolectric {
+    include '**/*Test.class'
+    exclude '**/espresso/**/*.class'
 }
 
 dependencies {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+    }
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    androidTestCompile files('libs/testrunner-1.1.jar', 'libs/testrunner-runtime-1.1.jar')
+    androidTestCompile 'com.google.guava:guava:14.0.1',
+            'com.squareup.dagger:dagger:1.1.0',
+            'org.hamcrest:hamcrest-integration:1.1',
+            'org.hamcrest:hamcrest-core:1.1',
+            'org.hamcrest:hamcrest-library:1.1'
 
     androidTestCompile('junit:junit:4.11') {
         exclude module: 'hamcrest-core'
     }
-
     androidTestCompile('org.robolectric:robolectric:2.3') {
         exclude module: 'classworlds'
         exclude module: 'maven-artifact'
@@ -44,5 +86,14 @@ dependencies {
         exclude module: 'wagon-http-lightweight'
         exclude module: 'wagon-http-shared'
         exclude module: 'wagon-provider-api'
+    }
+    androidTestCompile 'com.squareup:fest-android:1.0.+'
+}
+
+apply plugin: 'idea'
+
+idea {
+    module {
+        testOutputDir = file('build/test-classes/debug')
     }
 }
