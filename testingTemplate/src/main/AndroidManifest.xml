@@ -2,8 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.morant.testingTemplate" >
 
-    <uses-sdk android:minSdkVersion="15"
-              android:targetSdkVersion="18"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +25,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SupportedMultipleScreenActivity"
+            android:label="@string/title_activity_supported_multiple_screen" >
         </activity>
     </application>
 

@@ -4,5 +4,6 @@
     <string name="app_name">ProjectTestingTemplate</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_supported_multiple_screen">SupportedMultipleScreenActivity</string>
 
 </resources>
